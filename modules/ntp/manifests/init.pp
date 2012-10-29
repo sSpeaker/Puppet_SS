@@ -102,7 +102,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class ntp(
-  $server_list
+  $server_list,
   # = 
   #[
   #  '0.pool.ntp.org',
