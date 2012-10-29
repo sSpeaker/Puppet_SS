@@ -102,12 +102,14 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class ntp(
-  $server_list = [
-    '0.pool.ntp.org',
-    '1.pool.ntp.org',
-    '2.pool.ntp.org',
-    '3.pool.ntp.org',
-  ],
+  $server_list
+  # = 
+  #[
+  #  '0.pool.ntp.org',
+  # '1.pool.ntp.org',
+  #  '2.pool.ntp.org',
+  #  '3.pool.ntp.org',
+  #],
   $server_enabled = false,
   $query_networks = [],
   $interface_ignore = [],
