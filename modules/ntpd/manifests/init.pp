@@ -1,4 +1,3 @@
-class ntpd ($ntpd_state=running) {
 # Class: ntp
 #
 # This module manages ntp
@@ -193,5 +192,4 @@ class ntp(
     hasrestart => $service_hasrestart,
     require    => File[$config_file],
   }
-}
 }
