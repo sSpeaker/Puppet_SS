@@ -3,5 +3,4 @@ class test () {
     $test_variable = 'Hello World'
   }
   notify {$::test_variable:}
-    notify {"I`m ok":}
 }
