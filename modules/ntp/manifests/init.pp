@@ -101,10 +101,9 @@
 #
 #
 # [Remember: No empty lines between comments and class definition]
-class ntp(
-  $server_list = $ntpd_server_list,
-  # = 
-  #[
+class ntp (
+  $server_list = $::ntpd_server_list,
+  # = [
   #  '0.pool.ntp.org',
   # '1.pool.ntp.org',
   #  '2.pool.ntp.org',
