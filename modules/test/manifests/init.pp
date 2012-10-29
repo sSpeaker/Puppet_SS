@@ -1,4 +1,4 @@
-class test {
+class test () {
   if ! $::test_variable {
     $test_variable = 'Hello World'
   }
