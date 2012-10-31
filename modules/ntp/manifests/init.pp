@@ -125,6 +125,10 @@ class ntp (
   $service_hasrestart = true
 ) inherits ntp::params {
 
+  include ntp::install
+  include ntp::config
+  include ntp::service
+
   Class['ntp::install'] -> Class['ntp::config'] -> Class['ntp::service']
 
   case $ensure {
