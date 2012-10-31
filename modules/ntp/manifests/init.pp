@@ -102,12 +102,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class ntp (
-  $server_list = [
-   '0.pool.ntp.org',
-  '1.pool.ntp.org',
-    '2.pool.ntp.org',
-    '3.pool.ntp.org',
-  ],
+  $server_list = $ntp::params::server_list,
   $server_enabled = false,
   $query_networks = [],
   $interface_ignore = [],
@@ -129,6 +124,8 @@ class ntp (
   $service_hasstatus = true,
   $service_hasrestart = true
 ) inherits ntp::params {
+
+  Class['ntp::install'] -> Class['ntp::config'] -> Class['ntp::service']
 
   case $ensure {
     /(present)/: {
@@ -171,25 +168,6 @@ class ntp (
     }
   }
 
-  package { $package:
-    ensure => $package_ensure,
-  }
 
-  file { $config_file:
-    ensure  => $ensure,
-    owner   => $config_file_owner,
-    group   => $config_file_group,
-    mode    => $config_file_mode,
-    content => template('ntp/ntp.conf.erb'),
-    require => Package[$package],
-    notify  => Service[$service_name],
-  }
 
-  service { $service_name:
-    ensure     => $service_ensure_real,
-    enable     => $service_enable,
-    hasstatus  => $service_hasstatus,
-    hasrestart => $service_hasrestart,
-    require    => File[$config_file],
-  }
 }

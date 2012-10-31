@@ -2,8 +2,14 @@ class ntp::params {
   # Common
   $package = 'ntp'
   $config_file = '/etc/ntp.conf'
+  $server_list = [
+   '0.pool.ntp.org',
+   '1.pool.ntp.org',
+   '2.pool.ntp.org',
+   '3.pool.ntp.org',
+  ]
 
-  case $::osfamily {
+   case $::osfamily {
     'Debian': {
       $service_name = 'ntp'
       $driftfile = '/var/lib/ntp/ntp.drift'
