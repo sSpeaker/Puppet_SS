@@ -102,6 +102,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class ntp (
+  #>>>>CONFIG.PP
   $server_list = $ntp::params::server_list,
   $server_enabled = false,
   $query_networks = [],
@@ -109,25 +110,55 @@ class ntp (
   $interface_listen = [],
   $enable_statistics = false,
   $statsdir = undef,
-  $ensure = 'present',
-  $autoupgrade = false,
-  $package = $ntp::params::package,
   $config_file = $ntp::params::config_file,
-  $config_file_replace = true,
   $config_file_owner = $ntp::params::config_file_owner,
   $config_file_group = $ntp::params::config_file_group,
   $config_file_mode = $ntp::params::config_file_mode,
   $driftfile = $ntp::params::driftfile,
+  #<<<<
+  $ensure = 'present',
+  #>>>>INSTAL.PP
+  $autoupgrade = false,
+  $package = $ntp::params::package,
+  $config_file_replace = true,
+  #<<<<
+  #>>>>SERVICE.PP
   $service_ensure = 'running',
   $service_name = $ntp::params::service_name,
   $service_enable = true,
   $service_hasstatus = true,
   $service_hasrestart = true
+  #<<<<
 ) inherits ntp::params {
 
-  include ntp::install
-  include ntp::config
-  include ntp::service
+class {'ntp::install': 
+  autoupgrade = $autoupgrade,
+  package = $packag,
+  config_file_replace = $config_file_replace,
+}
+
+class {'ntp::config':
+  server_list = $server_list,
+  server_enabled = $server_enabled,
+  query_networks = $query_networks,
+  interface_ignore = $interface_ignore,
+  interface_listen = $interface_listen,
+  enable_statistics = $enable_statistics,
+  statsdir = $statsdir,
+  config_file = $config_file,
+  config_file_owner = $config_file_owner,
+  config_file_group = $config_file_group,
+  config_file_mode = $config_file_mode,
+  driftfile =$driftfile,
+}
+
+class {'ntp::service':
+  service_ensure = $service_ensure,
+  service_name = $service_name,
+  service_enable = $service_enable,
+  service_hasstatus = $service_hasstatus,
+  service_hasrestart = $service_hasrestart,
+}
 
   Class['ntp::install'] -> Class['ntp::config'] -> Class['ntp::service']
 
