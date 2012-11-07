@@ -2,18 +2,18 @@
 
 driftfile <%= driftfile %>
 
-<% if interface_ignore.empty? == false then -%>
+<% if scope.lookupvar('ntp::interface_ignore').empty? == false then -%>
 <% interface_ignore.each do |int_ignore| -%>
 interface ignore <%= int_ignore %>
 <% end -%>
 <% end -%>
-<% if interface_listen.empty? == false then -%>
+<% if scope.lookupvar('ntp::interface_listen').empty? == false then -%>
 <% interface_listen.each do |int_listen| -%>
 interface listen <%= int_listen %>
 <% end -%>
 <% end -%>
 
-<% if enable_statistics == true -%>
+<% if scope.lookupvar('ntp::enable_statistics') == true -%>
 # Enable this if you want statistics to be logged.                             
 statsdir <%= statsdir %>
 statistics loopstats peerstats clockstats
@@ -26,7 +26,7 @@ filegen clockstats file clockstats type day enable
 server <%= server %>
 <% end -%>
 
-<% if server_enabled == true -%>
+<% if scope.lookupvar('ntp::server_enabled') == true -%>
 # By default, exchange time with everybody, but don't allow configuration.
 restrict -4 default kod notrap nomodify nopeer noquery
 restrict -6 default kod notrap nomodify nopeer noquery
@@ -36,8 +36,8 @@ restrict -6 default kod notrap nomodify nopeer noquery
 restrict 127.0.0.1
 restrict ::1
 
-<% if server_enabled == true -%>
-<% if query_networks.empty? == false -%>
+<% if scope.lookupvar('ntp::server_enabled') == true -%>
+<% if scope.lookupvar('ntp::query_networks').empty? == false -%>
 # Clients from this subnet have unlimited access, but only if
 # cryptographically authenticated.
 # Required for some Nagios checks
