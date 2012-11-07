@@ -104,30 +104,30 @@
 class ntp (
   #>>>>CONFIG.PP
   $server_list = $ntp::params::server_list,
-  $server_enabled = false,
-  $query_networks = [],
-  $interface_ignore = [],
-  $interface_listen = [],
-  $enable_statistics = false,
-  $statsdir = undef,
+  $server_enabled = $ntp::params::server_enabled,
+  $query_networks = $ntp::params::query_networks,
+  $interface_ignore = $ntp::params::interface_ignore,
+  $interface_listen = $ntp::params::interface_listen,
+  $enable_statistics = $ntp::params::enable_statistics,
+  $statsdir = $ntp::params::statsdir,
   $config_file = $ntp::params::config_file,
   $config_file_owner = $ntp::params::config_file_owner,
   $config_file_group = $ntp::params::config_file_group,
   $config_file_mode = $ntp::params::config_file_mode,
   $driftfile = $ntp::params::driftfile,
   #<<<<
-  $ensure = 'present',
+  $ensure = $ntp::params::ensure,
   #>>>>INSTAL.PP
-  $autoupgrade = false,
+  $autoupgrade = $ntp::params::autoupgrade,
   $package = $ntp::params::package,
-  $config_file_replace = true,
+  $config_file_replace = $ntp::params::config_file_replace,
   #<<<<
   #>>>>SERVICE.PP
-  $service_ensure = 'running',
+  $service_ensure = $ntp::params::service_ensure,
   $service_name = $ntp::params::service_name,
-  $service_enable = true,
-  $service_hasstatus = true,
-  $service_hasrestart = true
+  $service_enable = $ntp::params::service_enable,
+  $service_hasstatus = $ntp::params::service_hasstatus,
+  $service_hasrestart = $ntp::params::service_hasrestart,
   #<<<<
 ) inherits ntp::params {
 
