@@ -1,9 +1,9 @@
 class ntp::install (
   $autoupgrade = $ntp::params::autoupgrade,
   $package = $ntp::params::package,
-  $config_file_replace = $ntp::params::config_file_replace,
+  $ensure = $ntp::params::package_ensure
 ){
-  package { $ntp::package:
-    ensure => $ntp::package_ensure,
+  package { $package:
+    ensure => $ensure,
   }
 }
