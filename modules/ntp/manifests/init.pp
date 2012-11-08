@@ -1,166 +1,32 @@
-# Class: ntp
-#
-# This module manages ntp
-#
-# Parameters:
-#   [*server_list*]
-#     List of NTP servers to use.
-#     Default: [
-#       '0.pool.ntp.org',
-#       '1.pool.ntp.org',
-#       '2.pool.ntp.org',
-#       '3.pool.ntp.org',
-#       ],
-#
-#   [*server_enabled*]
-#     Enable ntp server mode.
-#     Default: false
-#
-#   [*query_networks*]
-#     List of networks which have unlimited access.
-#     Default: []
-#
-#   [*interface_ignore*]
-#     Ignore these interfaces.
-#     Default: []
-#
-#   [*interface_listen*]
-#     Listen on these interfaces.
-#     Default: []
-#
-#   [*enable_statistics*]
-#     Enable statistics.
-#     Default: []
-#
-#   [*statsdir*]
-#     Directory to write statistics.
-#     Default: undef
-#
-#   [*ensure*]
-#     Ensure if present or absent.
-#     Default: present
-#
-#   [*autoupgrade*]
-#     Upgrade package automatically, if there is a newer version.
-#     Default: false
-#
-#   [*package*]
-#     Name of the package.
-#     Only set this, if your platform is not supported or you know,
-#     what you're doing.
-#     Default: auto-set, platform specific
-#
-#   [*config_file*]
-#     Main configuration file.
-#     Only set this, if your platform is not supported or you know,
-#     what you're doing.
-#     Default: auto-set, platform specific
-#
-#   [*config_file_replace*]
-#     Replace configuration file with that one delivered with this module
-#     Default: true
-#
-#   [*driftfile*]
-#     Driftfile to use
-#     Only set this, if your platform is not supported or you know,
-#     what you're doing.
-#     Default: auto-set, platform specific
-#
-#   [*service_ensure*]
-#     Ensure if service is running or stopped
-#     Default: running
-#
-#   [*service_name*]
-#     Name of NTP service
-#     Only set this, if your platform is not supported or you know,
-#     what you're doing.
-#     Default: auto-set, platform specific
-#
-#   [*service_enable*]
-#     Start service at boot
-#     Default: true
-#
-#   [*service_hasstatus*]
-#     Service has status command
-#     Default: true
-#
-#   [*service_hasrestart*]
-#     Service has restart command
-#     Default: true
-#
-# Actions:
-#   Installs ntp package and configures it
-#
-# Requires:
-#   Nothing
-#
-# Sample Usage:
-#   class { 'ntp':
-#     server_enabled = true,
-#   }
-#
-#
-# [Remember: No empty lines between comments and class definition]
 class ntp (
-  #>>>>CONFIG.PP
-  $server_list = $ntp::params::server_list,
-  $server_enabled = $ntp::params::server_enabled,
-  $query_networks = $ntp::params::query_networks,
-  $interface_ignore = $ntp::params::interface_ignore,
-  $interface_listen = $ntp::params::interface_listen,
-  $enable_statistics = $ntp::params::enable_statistics,
-  $statsdir = $ntp::params::statsdir,
-  $config_file = $ntp::params::config_file,
-  $config_file_owner = $ntp::params::config_file_owner,
-  $config_file_group = $ntp::params::config_file_group,
-  $config_file_mode = $ntp::params::config_file_mode,
-  $driftfile = $ntp::params::driftfile,
-  #<<<<
-  $ensure = $ntp::params::ensure,
-  #>>>>INSTAL.PP
-  $autoupgrade = $ntp::params::autoupgrade,
-  $package = $ntp::params::package,
-  $config_file_replace = $ntp::params::config_file_replace,
-  #<<<<
-  #>>>>SERVICE.PP
-  $service_ensure = $ntp::params::service_ensure,
-  $service_name = $ntp::params::service_name,
-  $service_enable = $ntp::params::service_enable,
-  $service_hasstatus = $ntp::params::service_hasstatus,
-  $service_hasrestart = $ntp::params::service_hasrestart,
-  #<<<<
-) inherits ntp::params {
-
-class {'ntp::install': 
-  autoupgrade = $autoupgrade,
-  package = $packag,
-  config_file_replace = $config_file_replace,
-}
-
-class {'ntp::config':
-  server_list = $server_list,
-  server_enabled = $server_enabled,
-  query_networks = $query_networks,
-  interface_ignore = $interface_ignore,
-  interface_listen = $interface_listen,
-  enable_statistics = $enable_statistics,
-  statsdir = $statsdir,
-  config_file = $config_file,
-  config_file_owner = $config_file_owner,
-  config_file_group = $config_file_group,
-  config_file_mode = $config_file_mode,
-  driftfile =$driftfile,
-}
-
-class {'ntp::service':
-  service_ensure = $service_ensure,
-  service_name = $service_name,
-  service_enable = $service_enable,
-  service_hasstatus = $service_hasstatus,
-  service_hasrestart = $service_hasrestart,
-}
-
-  Class['ntp::install'] -> Class['ntp::config'] -> Class['ntp::service']
+  $server_list = bdsm('g_ntp_server_list','ntp.ubuntu.com'),
+  $server_enabled = bdsm('g_ntp_server_enabled',true),
+  $query_networks = bdsm('g_ntp_query_networks',''),
+  $interface_ignore = bdsm('g_ntp_interface_ignore',''),
+  $interface_listen = bdsm('g_ntp_interface_listen',''),
+  $enable_statistics = bdsm('g_ntp_enable_statistics',true),
+  $statsdir = bdsm('g_ntp_statsdir',undef),
+  $config_file = bdsm('g_ntp_config_file','/etc/ntp.conf'),
+  $config_file_owner = bdsm('g_ntp_config_file_owner','root'),
+  $config_file_group = bdsm('g_ntp_config_file_group','root'),
+  $config_file_mode = bdsm('g_ntp_config_file_mode','0644'),
+  $driftfile = $::osfamily ? {
+                'Debian' => bdsm('g_ntp_driftfile','/var/lib/ntp/ntp.drift'),
+                'RedHat' => bdsm('g_ntp_driftfile','/var/lib/ntp/drift'),
+              },
+  $ensure = bdsm('g_ntp_ensure','present'),
+  $autoupgrade = bdsm('g_ntp_autoupgrade',true),
+  $package = bdsm('g_ntp_package','ntp'),
+  $service_ensure = bdsm('g_ntp_service_ensure','running'),
+  $service_name = $::osfamily ? {
+                      'Debian' => bdsm('g_ntp_service_name','ntp'),
+                      'RedHat' => bdsm('g_ntp_service_name','ntpd'),
+                    },
+  $service_enable = bdsm('g_ntp_service_enable',true),
+  $use_install = bdsm('g_ntp_server_list',true),
+  $use_config = bdsm('g_ntp_server_list',true),
+  $use_service = bdsm('g_ntp_server_list',true),
+) {
 
   case $ensure {
     /(present)/: {
@@ -168,14 +34,6 @@ class {'ntp::service':
         $package_ensure = 'latest'
       } else {
         $package_ensure = 'present'
-      }
-
-      if $service_ensure == 'running' {
-        $service_ensure_real = $service_ensure
-      } elsif $service_ensure == 'stopped' {
-        $service_ensure_real = $service_ensure
-      } else {
-        fail('service_ensure parameter must be running or stopped')
       }
 
       if $server_enabled == false {
@@ -196,13 +54,22 @@ class {'ntp::service':
     }
     /(absent)/: {
       $package_ensure = 'absent'
-      $service_ensure_real = 'stopped'
+      $service_ensure = 'stopped'
     }
     default: {
       fail('ensure parameter must be present or absent')
     }
   }
-
-
-
+  
+  if $use_install {
+    class {'ntp::install':}
+  }
+  
+  if $use_config {
+    class {'ntp::config':}
+  }
+  
+  if $use_service and $ensure != "absent" {
+    class {'ntp::service':}
+  }
 }

@@ -1,15 +1,20 @@
-class ntp::service (
-  $service_ensure     = $ntp::params::service_ensure,
-  $service_name       = $ntp::params::service_name,
-  $service_enable     = $ntp::params::service_enable,
-  $service_hasstatus  = $ntp::params::service_hasstatus,
-  $service_hasrestart = $ntp::params::service_hasrestart
- ) inherits ntp::params {
+class ntp::service {
 
   service { $ntp::service_name:
     ensure     => $ntp::service_ensure,
     enable     => $ntp::service_enable,
-    hasstatus  => $ntp::service_hasstatus,
-    hasrestart => $ntp::service_hasrestart,
   }
+  
+  if $ntp::use_config {
+    Service ["$ntp::service_name"]{
+      require => Class['ntp::config']
+    }
+  }
+  
+  if $ntp::use_install {
+     Service ["$ntp::service_name"]{
+      require => Class['ntp::install']
+    }
+  }
+
 }
