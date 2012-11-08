@@ -6,10 +6,10 @@ class ntp::service (
   $service_hasrestart = $ntp::params::service_hasrestart
  ) inherits ntp::params {
 
-  service { $ntp::service_name:
-    ensure     => $ntp::service_ensure,
-    enable     => $ntp::service_enable,
-    hasstatus  => $ntp::service_hasstatus,
-    hasrestart => $ntp::service_hasrestart,
+  service { $service_name:
+    ensure     => $service_ensure,
+    enable     => $service_enable,
+    hasstatus  => $service_hasstatus,
+    hasrestart => $service_hasrestart,
   }
 }
