@@ -10,23 +10,25 @@ class ntp (
   $config_file_owner = bdsm('g_ntp_config_file_owner','root'),
   $config_file_group = bdsm('g_ntp_config_file_group','root'),
   $config_file_mode = bdsm('g_ntp_config_file_mode','0644'),
-  $driftfile = $::osfamily ? {
-                 'Debian' => bdsm('g_ntp_driftfile','/var/lib/ntp/ntp.drift'),
-                 'RedHat' => bdsm('g_ntp_driftfile','/var/lib/ntp/drift'),
-               },
+  $driftfile = undef
   $ensure = bdsm('g_ntp_ensure','present'),
   $autoupgrade = bdsm('g_ntp_autoupgrade',true),
   $package = bdsm('g_ntp_package','ntp'),
   $service_ensure = bdsm('g_ntp_service_ensure','running'),
-  $service_name = $::osfamily ? {
-                    'Debian' => bdsm('g_ntp_service_name','ntp'),
-                    'RedHat' => bdsm('g_ntp_service_name','ntpd'),
-                  },
+  $service_name = undef
   $service_enable = bdsm('g_ntp_service_enable',true),
   $use_install = bdsm('g_ntp_server_list',true),
   $use_config = bdsm('g_ntp_server_list',true),
   $use_service = bdsm('g_ntp_server_list',true),
 ) {
+
+  if ! $service_name {
+    $service_name = $::osfamily ? {
+		                    'Debian' => bdsm('g_ntp_service_name','ntp'),
+		                    'RedHat' => bdsm('g_ntp_service_name','ntpd'),
+		                    default  => bdsm('g_ntp_service_name',undef),
+		                }
+  }
 
   case $ensure {
     /(present)/: {
@@ -47,9 +49,16 @@ class ntp (
       }
 
       if $enable_statistics == true {
-        if ! $statsdir {
-          fail('statsdir parameter must be set, if enable_statistics is true')
-        }
+        if ! $driftfile {
+			    $driftfile = $::osfamily ? {
+			                   'Debian' => bdsm('g_ntp_driftfile','/var/lib/ntp/ntp.drift'),
+			                   'RedHat' => bdsm('g_ntp_driftfile','/var/lib/ntp/drift'),
+			                   default  => bdsm('g_ntp_driftfile',undef),
+			                 }
+				  if ! $statsdir {
+            fail('statsdir parameter must be set, if enable_statistics is true')
+          }
+			  }
       }
     }
     /(absent)/: {
@@ -64,7 +73,7 @@ class ntp (
 	include ntp::install
 	include ntp::config
 	include ntp::service
-  Class ['ntp::install']-> Class['ntp::service'] -> Class['ntp::config']
-
+	
+  Class['ntp::install']-> Class['ntp::service'] -> Class['ntp::config']
 
 }
