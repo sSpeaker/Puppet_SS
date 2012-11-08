@@ -35,9 +35,9 @@ class ntp::params {
       fail("Unsupported platform: ${::osfamily}")
     }
   }
-  
-  
-  
+
+
+
   #>>>>CONFIG.PP
   $server_list = $ntp::params::server_list,
   $server_enabled = false,
@@ -65,4 +65,45 @@ class ntp::params {
   $service_hasstatus = true,
   $service_hasrestart = true
   #<<<<
+
+  case $ensure {
+    /(present)/: {
+      if $autoupgrade == true {
+        $package_ensure = 'latest'
+      } else {
+        $package_ensure = 'present'
+      }
+
+      if $service_ensure == 'running' {
+        $service_ensure_real = $service_ensure
+      } elsif $service_ensure == 'stopped' {
+        $service_ensure_real = $service_ensure
+      } else {
+        fail('service_ensure parameter must be running or stopped')
+      }
+
+      if $server_enabled == false {
+        $interface_ignore_real = [ 'all', ]
+        $interface_listen_real = [ 'lo', ]
+      } elsif $server_enabled == true {
+        $interface_ignore_real = $interface_ignore
+        $interface_listen_real = $interface_listen
+      } else {
+        fail('server_enabled parameter must be true or false')
+      }
+
+      if $enable_statistics == true {
+        if ! $statsdir {
+          fail('statsdir parameter must be set, if enable_statistics is true')
+        }
+      }
+    }
+    /(absent)/: {
+      $package_ensure = 'absent'
+      $service_ensure_real = 'stopped'
+    }
+    default: {
+      fail('ensure parameter must be present or absent')
+    }
+  }
 }
