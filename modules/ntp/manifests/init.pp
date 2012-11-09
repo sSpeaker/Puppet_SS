@@ -1,12 +1,32 @@
 class ntp (
-
+  $server_list = hiera('g_ntp_server_list','ntp.ubuntu.com'),
+  $server_enabled = hiera('g_ntp_server_enabled',true),
+  $query_networks = hiera('g_ntp_query_networks',''),
+  $interface_ignore = hiera('g_ntp_interface_ignore',''),
+  $interface_listen = hiera('g_ntp_interface_listen',''),
+  $enable_statistics = hiera('g_ntp_enable_statistics',true),
+  $statsdir = hiera('g_ntp_statsdir','undef'),
+  $config_file = hiera('g_ntp_config_file','/etc/ntp.conf'),
+  $config_file_owner = hiera('g_ntp_config_file_owner','root'),
+  $config_file_group = hiera('g_ntp_config_file_group','root'),
+  $config_file_mode = hiera('g_ntp_config_file_mode','0644'),
+  $driftfile = undef,
+  $ensure = hiera('g_ntp_ensure','present'),
+  $autoupgrade = hiera('g_ntp_autoupgrade',true),
+  $package = hiera('g_ntp_package','ntp'),
+  $service_ensure = hiera('g_ntp_service_ensure','running'),
+  $service_name = undef,
+  $service_enable = hiera('g_ntp_service_enable',true),
+  $use_install = hiera('g_ntp_server_list',true),
+  $use_config = hiera('g_ntp_server_list',true),
+  $use_service = hiera('g_ntp_server_list',true),
 ) {
 
   if ! $service_name {
     $service_name = $::osfamily ? {
                         'Debian' => hiera('g_ntp_service_name','ntp'),
                         'RedHat' => hiera('g_ntp_service_name','ntpd'),
-                        default  => hiera('g_ntp_service_name',undef),
+                        default  => hiera('g_ntp_service_name','undef'),
                     }
   }
 
@@ -33,7 +53,7 @@ class ntp (
           $driftfile = $::osfamily ? {
                          'Debian' => hiera('g_ntp_driftfile','/var/lib/ntp/ntp.drift'),
                          'RedHat' => hiera('g_ntp_driftfile','/var/lib/ntp/drift'),
-                         default  => hiera('g_ntp_driftfile',undef),
+                         default  => hiera('g_ntp_driftfile','undef'),
                        }
           if ! $statsdir {
             fail('statsdir parameter must be set, if enable_statistics is true')
