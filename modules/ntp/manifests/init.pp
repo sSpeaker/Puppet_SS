@@ -1,6 +1,5 @@
-class ntp 
-#(
-#  $server_list = hiera('g_ntp_server_list','ntp.ubuntu.com'),
+class ntp (
+  $server_list = hiera('g_ntp_server_list','ntp.ubuntu.com'),
 #  $server_enabled = hiera('g_ntp_server_enabled',true),
 #  $query_networks = hiera('g_ntp_query_networks',''),
 #  $interface_ignore = hiera('g_ntp_interface_ignore',''),
@@ -21,9 +20,8 @@ class ntp
 #  $use_install = hiera('g_ntp_server_list',true),
 #  $use_config = hiera('g_ntp_server_list',true),
 #  $use_service = hiera('g_ntp_server_list',true),
-#) 
-{
-
+) {
+/*
   if ! $service_name {
     $service_name = $::osfamily ? {
                         'Debian' => hiera('g_ntp_service_name','ntp'),
@@ -76,4 +74,5 @@ class ntp
   include ntp::install
   include ntp::config
   include ntp::service
+*/
 }
