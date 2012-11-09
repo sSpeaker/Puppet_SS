@@ -50,7 +50,7 @@ class ntp (
 
       if $enable_statistics == true {
         if ! $driftfile {
-          $driftfile = $::osfamily ? {
+          $driftfile_real = $::osfamily ? {
                          'Debian' => hiera('g_ntp_driftfile','/var/lib/ntp/ntp.drift'),
                          'RedHat' => hiera('g_ntp_driftfile','/var/lib/ntp/drift'),
                          default  => hiera('g_ntp_driftfile',undef),
