@@ -1,6 +1,6 @@
 # file is managed by puppet
 
-driftfile <%= driftfile %>
+driftfile <%= scope.lookupvar('ntp::driftfile') %>
 
 <% if scope.lookupvar('ntp::interface_ignore').empty? == false then -%>
 <% interface_ignore.each do |int_ignore| -%>
