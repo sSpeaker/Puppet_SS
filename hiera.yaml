@@ -1,2 +1,2 @@
 ---
-:backends:- pupvar
+:backends:- puppet_topscope_var
