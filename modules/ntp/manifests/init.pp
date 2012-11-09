@@ -1,5 +1,10 @@
-class ntp (
-  $server_list = hiera('g_ntp_server_list','ntp.ubuntu.com'),
+class ntp {
+  notify {"HHHHHHH":}
+}
+
+
+#class ntp (
+#  $server_list = hiera('g_ntp_server_list','ntp.ubuntu.com'),
 #  $server_enabled = hiera('g_ntp_server_enabled',true),
 #  $query_networks = hiera('g_ntp_query_networks',''),
 #  $interface_ignore = hiera('g_ntp_interface_ignore',''),
@@ -11,7 +16,7 @@ class ntp (
 #  $config_file_group = hiera('g_ntp_config_file_group','root'),
 #  $config_file_mode = hiera('g_ntp_config_file_mode','0644'),
 #  $driftfile = undef,
-  $ensure = hiera('g_ntp_ensure','present'),
+#  $ensure = hiera('g_ntp_ensure','present'),
 #  $autoupgrade = hiera('g_ntp_autoupgrade',true),
 #  $package = hiera('g_ntp_package','ntp'),
 #  $service_ensure = hiera('g_ntp_service_ensure','running'),
@@ -75,4 +80,4 @@ class ntp (
   include ntp::config
   include ntp::service
 */
-}
+#}
