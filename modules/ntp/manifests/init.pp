@@ -10,7 +10,7 @@ class ntp (
   $config_file_owner = hiera('g_ntp_config_file_owner','root'),
   $config_file_group = hiera('g_ntp_config_file_group','root'),
   $config_file_mode = hiera('g_ntp_config_file_mode','0644'),
-  $driftfile = undef
+  $driftfile = undef,
   $ensure = hiera('g_ntp_ensure','present'),
   $autoupgrade = hiera('g_ntp_autoupgrade',true),
   $package = hiera('g_ntp_package','ntp'),
