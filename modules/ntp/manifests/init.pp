@@ -71,7 +71,7 @@ class ntp (
     }
   }
  
-  Class['ntp::install']-> Class['ntp::service'] -> Class['ntp::config']
+  Class['ntp::install']-> Class['ntp::config'] -> Class['ntp::service']
   include ntp::install
   include ntp::config
   include ntp::service
