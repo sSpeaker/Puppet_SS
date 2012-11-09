@@ -15,7 +15,7 @@ class ntp (
   $autoupgrade = hiera('g_ntp_autoupgrade',true),
   $package = hiera('g_ntp_package','ntp'),
   $service_ensure = hiera('g_ntp_service_ensure','running'),
-  $service_name = undef
+  $service_name = undef,
   $service_enable = hiera('g_ntp_service_enable',true),
   $use_install = hiera('g_ntp_server_list',true),
   $use_config = hiera('g_ntp_server_list',true),
