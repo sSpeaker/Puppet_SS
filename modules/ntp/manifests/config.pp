@@ -6,7 +6,7 @@ class ntp::config {
 			group   => $ntp::config_file_group,
 			mode    => $ntp::config_file_mode,
 			content => template('ntp/ntp.conf.erb'),
-#			notify  => Class['ntp::service'],
+			notify  => Class['ntp::service'],
 	  }
   }
 }
