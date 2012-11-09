@@ -25,7 +25,7 @@ class ntp {
 #  $use_install = hiera('g_ntp_server_list',true),
 #  $use_config = hiera('g_ntp_server_list',true),
 #  $use_service = hiera('g_ntp_server_list',true),
-) {
+#) {
 /*
   if ! $service_name {
     $service_name = $::osfamily ? {
