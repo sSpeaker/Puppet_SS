@@ -21,15 +21,15 @@ class ntp (
   $use_config = hiera('g_ntp_server_list',true),
   $use_service = hiera('g_ntp_server_list',true),
 ) {
-
-  if ! $service_name {
-    $service_name = $::osfamily ? {
-                        'Debian' => hiera('g_ntp_service_name','ntp'),
-                        'RedHat' => hiera('g_ntp_service_name','ntpd'),
+#
+#  if ! $service_name {
+#    $service_name = $::osfamily ? {
+#                        'Debian' => hiera('g_ntp_service_name','ntp'),
+#                        'RedHat' => hiera('g_ntp_service_name','ntpd'),
 #                        default  => hiera('g_ntp_service_name',undef),
-                    }
-  }
-
+#                    }
+#  }
+#
 #  case $ensure {
 #    /(present)/: {
 #      if $autoupgrade == true {
