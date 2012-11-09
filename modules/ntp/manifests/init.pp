@@ -23,7 +23,7 @@ class ntp (
 ) {
 
   if ! $service_name {
-    $service_name = $::osfamily ? {
+    $service_name_real = $::osfamily ? {
                         'Debian' => hiera('g_ntp_service_name','ntp'),
                         'RedHat' => hiera('g_ntp_service_name','ntpd'),
                         default  => hiera('g_ntp_service_name',undef),
