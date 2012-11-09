@@ -1,7 +1,7 @@
 class ntp::install {
   if $ntp::use_install {
 	  package { $ntp::package:
-	    ensure => $ntp::$package_ensure,
+	    ensure => $ntp::package_ensure,
 	  }
   }
 }
