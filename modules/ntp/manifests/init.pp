@@ -1,6 +1,4 @@
-class ntp (
-  $var = "1",
-) {
+class ntp( $var = "1", ) {
   notify {"HHHHHHH":}
 }
 
