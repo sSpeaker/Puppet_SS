@@ -5,7 +5,7 @@ class ntp (
   $interface_ignore = hiera('g_ntp_interface_ignore',''),
   $interface_listen = hiera('g_ntp_interface_listen',''),
   $enable_statistics = hiera('g_ntp_enable_statistics',true),
-  $statsdir = hiera('g_ntp_statsdir','undef'),
+  $statsdir = hiera('g_ntp_statsdir',undef),
   $config_file = hiera('g_ntp_config_file','/etc/ntp.conf'),
   $config_file_owner = hiera('g_ntp_config_file_owner','root'),
   $config_file_group = hiera('g_ntp_config_file_group','root'),
@@ -26,7 +26,7 @@ class ntp (
     $service_name = $::osfamily ? {
                         'Debian' => hiera('g_ntp_service_name','ntp'),
                         'RedHat' => hiera('g_ntp_service_name','ntpd'),
-                        default  => hiera('g_ntp_service_name','undef'),
+#                        default  => hiera('g_ntp_service_name',undef),
                     }
   }
 
@@ -53,7 +53,7 @@ class ntp (
           $driftfile = $::osfamily ? {
                          'Debian' => hiera('g_ntp_driftfile','/var/lib/ntp/ntp.drift'),
                          'RedHat' => hiera('g_ntp_driftfile','/var/lib/ntp/drift'),
-                         default  => hiera('g_ntp_driftfile','undef'),
+#                         default  => hiera('g_ntp_driftfile',undef),
                        }
           if ! $statsdir {
             fail('statsdir parameter must be set, if enable_statistics is true')
