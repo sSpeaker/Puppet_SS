@@ -5,7 +5,7 @@ class ntp (
   $interface_ignore = hiera('g_ntp_interface_ignore',''),
   $interface_listen = hiera('g_ntp_interface_listen',''),
   $enable_statistics = hiera('g_ntp_enable_statistics',true),
-  $statsdir = hiera('g_ntp_statsdir',undef),
+  $statsdir = hiera('g_ntp_statsdir','/tmp'),
   $config_file = hiera('g_ntp_config_file','/etc/ntp.conf'),
   $config_file_owner = hiera('g_ntp_config_file_owner','root'),
   $config_file_group = hiera('g_ntp_config_file_group','root'),
