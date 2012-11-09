@@ -1,5 +1,5 @@
 class ntp (
-  $server_list,
+  $server_list = "hy",
 # = hiera('g_ntp_server_list','ntp.ubuntu.com'),
 #  $server_enabled = hiera('g_ntp_server_enabled',true),
 #  $query_networks = hiera('g_ntp_query_networks',''),
