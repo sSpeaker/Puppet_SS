@@ -1,7 +1,7 @@
 class ntp (
-  $ntp_server_list = 'ntp.ubuntu.com',
-  $ntp_server_enabled = true,
-  $ntp_query_networks = [],
+  $ntp_server_list      = 'ntp.ubuntu.com',
+  $ntp_server_enabled   = true,
+  $ntp_query_networks   = [],
   $ntp_interface_ignore = [],
   $ntp_interface_listen = [],
   $ntp_enable_statistics = true,
@@ -57,11 +57,11 @@ class ntp (
                          'RedHat' => hiera('ntp_driftfile','/var/lib/ntp/drift'),
                          default  => hiera('ntp_driftfile',undef),
                        }
-          if ! $ntp_statsdir {
-            fail('statsdir parameter must be set, if enable_statistics is true')
-          }
         } else {
           $ntp_driftfile_real = $ntp_driftfile
+        }
+        if ! $ntp_statsdir {
+          fail('statsdir parameter must be set, if enable_statistics is true')
         }
       }
     }
@@ -75,5 +75,5 @@ class ntp (
   }
 
   Class['ntp::install']-> Class['ntp::config'] -> Class['ntp::service']
-  include ntp::install, ntp::config, ntp::service 
+  include ntp::install, ntp::config, ntp::service
 }
