@@ -17,9 +17,9 @@ class ntp (
   $ntp_service_ensure = 'running',
   $ntp_service_name = undef,
   $ntp_service_enable = true,
-  $ntp_manage_install = true,
-  $ntp_manage_config = true,
-  $ntp_manage_service = true,
+  $ntp_manage_install = 'true',
+  $ntp_manage_config = 'true'',
+  $ntp_manage_service = 'true'',
 ) {
 
   if ! $ntp_service_name {
