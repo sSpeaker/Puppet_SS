@@ -1,5 +1,5 @@
 class ntp::config {
-  if $ntp::ntp_use_config {
+  if $ntp::ntp_manage_config {
 	  file { $ntp::ntp_config_file:
 			ensure  => $ntp::ntp_ensure,
 			owner   => $ntp::ntp_config_file_owner,

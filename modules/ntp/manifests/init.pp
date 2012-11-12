@@ -73,7 +73,7 @@ class ntp (
       fail('ensure parameter must be present or absent')
     }
   }
- 
+
   Class['ntp::install']-> Class['ntp::config'] -> Class['ntp::service']
-  include ntp::install, ntp::config, ntp::service
+  include ntp::install, ntp::config, ntp::service 
 }
