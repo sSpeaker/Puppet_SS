@@ -1,4 +1,6 @@
 class ntp::config {
+  # If ntp_manage_config = false then do nothing.
+  # For better resolving dependencies cycles.
   if str2bool("$ntp::ntp_manage_config") {
 	  file { $ntp::ntp_config_file:
 			ensure  => $ntp::ntp_ensure,

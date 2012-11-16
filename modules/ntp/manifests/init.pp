@@ -73,7 +73,8 @@ class ntp (
       fail('ensure parameter must be present or absent')
     }
   }
-
+  
+  # Dependency block. Always should be at the end of first class.
   Class['ntp::install']-> Class['ntp::config'] -> Class['ntp::service']
   include ntp::install, ntp::config, ntp::service
 }
