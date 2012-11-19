@@ -1,2 +1,11 @@
 ---
-:backends:- puppet_topscope_var
+:backends:
+ - puppet_var
+ - yaml
+
+:hierarchy:
+ - %{environment}
+ - common
+
+:yaml:
+   :datadir: /etc/puppet/hieradata
