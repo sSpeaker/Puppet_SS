@@ -30,9 +30,6 @@
 #     module_name_manage_config => false,
 #   }
 #
-#
-#
-#
 class module_name (
   $module_name_service_name = undef,
   $module_name_service_enable = true,
