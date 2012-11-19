@@ -1,4 +1,4 @@
-if ! $enc_localfile {
+if $enc_localfile {
   notify {"Using node config from: $enc_localfile":
     stage => 'pre', 
   }
