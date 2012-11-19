@@ -3,7 +3,7 @@ if $enc_localfile {
     stage => 'pre', 
   }
 } else {
-  notify {"Using node config from: Dashboard"}
+  notify {"Using node config from: Dashboard":}
 }
 
 stage { 'pre':
