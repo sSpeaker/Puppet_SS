@@ -1,5 +1,5 @@
 Require:
-gem install rspec-puppet
+<br>gem install rspec-puppet
 
 Usage:
 <br>cd module_name
