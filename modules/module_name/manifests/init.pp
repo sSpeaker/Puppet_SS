@@ -31,7 +31,7 @@
 #   }
 #
 class module_name (
-  $module_name_service_name = undef,
+  $module_name_service_name = hiera("module_name_service_name",undef),
   $module_name_service_enable = true,
   $module_name_manage_install = true,
   $module_name_manage_config = true,
